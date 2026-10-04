@@ -75,6 +75,41 @@
    scrolled with the mouse wheel / trackpad instead of being cut off at the bottom. */
 .reveal .slides > section.present { overflow-y: auto !important; }
 
+/* Two-column slide: put <div class="code-right"></div> anywhere in the slide's markdown
+   cell, and the markdown stays on the left while the code cells of that slide stack on
+   the right. Only affects the slideshow; in the notebook the marker is invisible. */
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-right) {
+  display: grid !important;
+  grid-template-columns: 50% 50%;
+  align-content: start;
+}
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-right) > .jp-MarkdownCell {
+  grid-column: 1; grid-row: 1 / span 20; padding-right: 24px; box-sizing: border-box;
+}
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-right) > .jp-CodeCell {
+  grid-column: 2; min-width: 0;
+}
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-right) > .fragment { grid-column: 2; min-width: 0; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-right) > .jp-CodeCell:nth-child(2) {
+  margin-top: 128px;   /* line the code up with the content below the slide title */
+}
+
+/* Image beside code: a slide's LAST cell is a markdown cell containing an image and the
+   marker <div class="img-right"></div>. The first cell (title) spans the full width, the
+   code cells stack on the left, and the image cell sits in the right column. Slideshow only. */
+.reveal .slides section.present:has(> .jp-MarkdownCell .img-right) {
+  display: grid !important;
+  grid-template-columns: 50% 50%;
+  align-content: start;
+}
+.reveal .slides section.present:has(> .jp-MarkdownCell .img-right) > .jp-Cell:first-child { grid-column: 1 / -1; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .img-right) > .jp-CodeCell { grid-column: 1; min-width: 0; }
+/* RISE wraps a fragment cell and all cells after it in a div.fragment: keep it in the code column. */
+.reveal .slides section.present:has(> .jp-MarkdownCell .img-right) > .fragment { grid-column: 1; min-width: 0; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .img-right) > .jp-MarkdownCell:has(.img-right) {
+  grid-column: 2; grid-row: 2 / span 20; padding-left: 24px; box-sizing: border-box;
+}
+
 /* No code ligatures: JetBrains Mono would draw != as ≠, <= as ≤ etc., but students
    need to see the characters they have to type. The letter-spacing keeps a visible gap
    between repeated wide characters (== would otherwise read as one long bar). */
