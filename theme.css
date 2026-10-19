@@ -110,6 +110,35 @@
   grid-column: 2; grid-row: 2 / span 20; padding-left: 24px; box-sizing: border-box;
 }
 
+/* Line numbers for selected code cells: put <div class="line-numbers"></div> in a slide's
+   markdown cell, and all code cells on that slide (also those appearing on a click) get small grey line numbers.
+   Slideshow only. */
+.reveal .slides section.present:has(> .jp-MarkdownCell .line-numbers) .jp-CodeCell .cm-content { counter-reset: cmline; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .line-numbers) .jp-CodeCell .cm-line { counter-increment: cmline; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .line-numbers) .jp-CodeCell .cm-line::before {
+  content: counter(cmline);
+  display: inline-block; width: 1em; margin-right: 0.6em;
+  text-align: right; color: #a8a8a8; font-size: 0.85em;
+  user-select: none; pointer-events: none;
+}
+
+/* Code side by side: put <div class="code-columns"></div> in a slide's first markdown cell.
+   Markdown cells and click-fragments span the full width; the slide's (non-fragment) code
+   cells fill two columns, e.g. two versions of the same program. Run counters are hidden
+   and code is set at 82% to make room. Slideshow only. */
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) {
+  display: grid !important;
+  grid-template-columns: 50% 50%;
+  align-content: start;
+}
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .jp-MarkdownCell,
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .fragment { grid-column: 1 / -1; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .jp-CodeCell { min-width: 0; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .jp-CodeCell:nth-of-type(odd) { padding-right: 12px; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .jp-CodeCell .jp-InputPrompt,
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .jp-CodeCell .jp-OutputPrompt { display: none !important; }
+.reveal .slides section.present:has(> .jp-MarkdownCell .code-columns) > .jp-CodeCell .cm-content { font-size: 82%; }
+
 /* No code ligatures: JetBrains Mono would draw != as ≠, <= as ≤ etc., but students
    need to see the characters they have to type. The letter-spacing keeps a visible gap
    between repeated wide characters (== would otherwise read as one long bar). */

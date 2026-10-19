@@ -6,3 +6,6 @@
 
 # Editor layout state (cell sizes), per user
 *.ipynb.layout
+
+# Python bytecode caches (created automatically by imports)
+__pycache__/
