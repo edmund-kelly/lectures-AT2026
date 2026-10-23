@@ -9,3 +9,6 @@
 
 # Python bytecode caches (created automatically by imports)
 __pycache__/
+
+# Week 5: no python notebook
+wk5/MY470_wk5_class.ipynb
